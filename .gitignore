@@ -1,0 +1,24 @@
+# Binary
+gocurl
+
+# Local env
+.env
+
+# Test binary and coverage
+*.test
+*.out
+coverage.html
+
+# Go workspace
+go.work
+go.work.sum
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
