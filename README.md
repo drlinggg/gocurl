@@ -1,4 +1,4 @@
-# gocurl v0.0.2
+# gocurl v0.0.3
 
 A curl replacement focused on REST APIs with named presets and a minimal syntax.
 

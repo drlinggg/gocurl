@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.3] — 2026-05-20
+
+### Fixes
+
+- `storage/presets.toml` moved to `storage/embed/presets.toml`; `//go:embed` path updated accordingly.
+
+---
+
 ## [0.0.2] — 2026-05-20
 
 ### Breaking changes
@@ -25,6 +33,9 @@
 - `embed/presents.toml` renamed to `embed/presets.toml` (typo).
 - Removed dead code: `core/http/receive.go` (empty file), `FileHistory` stub in `core/storage/history.go`.
 - Removed duplicate docs: `docs/docs.md` and `docs/presents.toml`.
+- `storage/presets.toml` embedded via `//go:embed` and used as default config when `~/.config/gocurl/presets.toml` is absent. Added `[default.colors]` section to the template.
+- `.env.example`: fixed `GOCURL_DATA` path (`~/.local/share` → `~/.config`), replaced `~` with `$HOME`.
+- Makefile: added `.PHONY`, `run`, `vet`, `fmt` targets; `install` now detects shell rc file via `$SHELL`.
 
 ## [0.0.1] — 2026-05-17
 

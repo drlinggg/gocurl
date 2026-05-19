@@ -100,7 +100,7 @@ func main() {
 		&corehttp.Sender{},
 		cfg, hist,
 		cmdio.NewInput(),
-		cmdio.NewOutput(cfg.Colors()),
+		cmdio.NewOutput(os.Stdout, cfg.Colors()),
 	)
 
 	if err := engine.Run(); err != nil {

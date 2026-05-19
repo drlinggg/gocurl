@@ -1,6 +1,7 @@
 package storage
 
 import (
+	_ "embed"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -10,6 +11,9 @@ import (
 	"github.com/BurntSushi/toml"
 	coretypes "github.com/drlinggg/gocurl/core/types"
 )
+
+//go:embed embed/presets.toml
+var defaultPresets []byte
 
 type presetColors struct {
 	Status2xx string `toml:"status_2xx"`
@@ -47,10 +51,12 @@ func LoadConfig() (*Config, error) {
 
 	var presets map[string]preset
 	if _, err := toml.DecodeFile(path, &presets); err != nil {
-		if os.IsNotExist(err) {
-			return &Config{presets: map[string]preset{"default": {}}, path: path}, nil
+		if !os.IsNotExist(err) {
+			return nil, err
 		}
-		return nil, err
+		if _, err := toml.Decode(string(defaultPresets), &presets); err != nil {
+			return nil, err
+		}
 	}
 	return &Config{presets: presets, path: path}, nil
 }

@@ -14,6 +14,14 @@ timeout      = 10
 http_version = 1      # 1, 2, or 3
 scheme       = "https"
 
+[default.colors]
+status_2xx = "00c853"
+status_4xx = "ffab00"
+status_5xx = "ff1744"
+headers    = "888888"
+body       = "61dafb"
+elapsed    = "555555"
+
 # [default.query]
 # page = 1
 
