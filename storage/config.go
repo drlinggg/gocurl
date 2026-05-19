@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
-	coretypes "github.com/banakh/gocurl/core/types"
+	coretypes "github.com/drlinggg/gocurl/core/types"
 )
 
 type presetColors struct {

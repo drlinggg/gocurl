@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	coretypes "github.com/banakh/gocurl/core/types"
-	"github.com/banakh/gocurl/storage"
+	coretypes "github.com/drlinggg/gocurl/core/types"
+	"github.com/drlinggg/gocurl/storage"
 )
 
 const testTOML = `

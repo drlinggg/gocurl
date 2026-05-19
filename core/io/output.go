@@ -1,7 +1,7 @@
 package io
 
-import coretypes "github.com/banakh/gocurl/core/types"
+import coretypes "github.com/drlinggg/gocurl/core/types"
 
 type Output interface {
-	Write(*coretypes.Response) error
+	Write(req *coretypes.Request, resp *coretypes.Response) error
 }

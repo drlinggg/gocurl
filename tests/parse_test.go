@@ -3,8 +3,8 @@ package tests
 import (
 	"testing"
 
-	cmdio "github.com/banakh/gocurl/cmd/gocurl/io"
-	coretypes "github.com/banakh/gocurl/core/types"
+	cmdio "github.com/drlinggg/gocurl/cmd/gocurl/io"
+	coretypes "github.com/drlinggg/gocurl/core/types"
 )
 
 func TestParseArgs_ExplicitMethod(t *testing.T) {

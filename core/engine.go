@@ -1,8 +1,9 @@
 package core
 
 import (
-	corestorage "github.com/banakh/gocurl/core/storage"
-	coretypes "github.com/banakh/gocurl/core/types"
+	coreio "github.com/drlinggg/gocurl/core/io"
+	corestorage "github.com/drlinggg/gocurl/core/storage"
+	coretypes "github.com/drlinggg/gocurl/core/types"
 )
 
 type Sender interface {
@@ -13,14 +14,12 @@ type Engine struct {
 	sender  Sender
 	config  corestorage.Config
 	history corestorage.History
+	input   coreio.Input
+	output  coreio.Output
 }
 
-func New(sender Sender, config corestorage.Config, history corestorage.History) *Engine {
-	return &Engine{sender: sender, config: config, history: history}
-}
-
-func (e *Engine) Colors() coretypes.Colors {
-	return e.config.Colors()
+func New(sender Sender, config corestorage.Config, history corestorage.History, input coreio.Input, output coreio.Output) *Engine {
+	return &Engine{sender: sender, config: config, history: history, input: input, output: output}
 }
 
 func (e *Engine) Execute(req *coretypes.Request) (*coretypes.Response, error) {
@@ -43,4 +42,18 @@ func (e *Engine) Execute(req *coretypes.Request) (*coretypes.Response, error) {
 	}
 
 	return response, nil
+}
+
+func (e *Engine) Run() error {
+	req, err := e.input.Read()
+	if err != nil {
+		return err
+	}
+
+	resp, err := e.Execute(req)
+	if err != nil {
+		return err
+	}
+
+	return e.output.Write(req, resp)
 }

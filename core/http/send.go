@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	coretypes "github.com/banakh/gocurl/core/types"
+	coretypes "github.com/drlinggg/gocurl/core/types"
 )
 
 type Sender struct{}

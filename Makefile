@@ -2,10 +2,10 @@ BIN    := gocurl
 GOBIN  := $(shell go env GOPATH)/bin
 
 build: test
-	go build -o $(BIN) ./cmd/gocurl
+	go build -o $(BIN) .
 
 install: test
-	go install ./cmd/gocurl
+	go install .
 	@if ! grep -qF '$(GOBIN)' ~/.zshrc 2>/dev/null; then \
 		printf '\nexport PATH="$$PATH:$(GOBIN)"\n' >> ~/.zshrc; \
 		echo "→ added $(GOBIN) to ~/.zshrc"; \
