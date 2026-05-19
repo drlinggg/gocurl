@@ -1,5 +1,5 @@
-# Binary
-gocurl
+# Binary (repo root only — do not match cmd/gocurl/)
+/gocurl
 
 # Local env
 .env

@@ -16,22 +16,22 @@ import (
 var defaultPresets []byte
 
 type presetColors struct {
-	Status2xx string `toml:"status_2xx"`
-	Status4xx string `toml:"status_4xx"`
-	Status5xx string `toml:"status_5xx"`
-	Headers   string `toml:"headers"`
-	Body      string `toml:"body"`
-	Elapsed   string `toml:"elapsed"`
+	Status2xx string `toml:"status_2xx,omitempty"`
+	Status4xx string `toml:"status_4xx,omitempty"`
+	Status5xx string `toml:"status_5xx,omitempty"`
+	Headers   string `toml:"headers,omitempty"`
+	Body      string `toml:"body,omitempty"`
+	Elapsed   string `toml:"elapsed,omitempty"`
 }
 
 type preset struct {
-	Base        string            `toml:"base"`
-	Timeout     int               `toml:"timeout"`
-	HTTPVersion int               `toml:"http_version"`
-	Scheme      string            `toml:"scheme"`
-	Headers     map[string]string `toml:"headers"`
-	Query       map[string]string `toml:"query"`
-	Colors      presetColors      `toml:"colors"`
+	Base        string            `toml:"base,omitempty"`
+	Timeout     int               `toml:"timeout,omitempty"`
+	HTTPVersion int               `toml:"http_version,omitempty"`
+	Scheme      string            `toml:"scheme,omitempty"`
+	Headers     map[string]string `toml:"headers,omitempty"`
+	Query       map[string]string `toml:"query,omitempty"`
+	Colors      presetColors      `toml:"colors,omitempty"`
 }
 
 type Config struct {
@@ -113,7 +113,13 @@ func (c *Config) SetField(presetName, arg string) error {
 			}
 			p.HTTPVersion = n
 		default:
-			return fmt.Errorf("unknown field %q", key)
+			if strings.HasPrefix(key, "color.") {
+				if err := setColor(&p.Colors, strings.TrimPrefix(key, "color."), val); err != nil {
+					return err
+				}
+			} else {
+				return fmt.Errorf("unknown field %q", key)
+			}
 		}
 	}
 
@@ -121,6 +127,26 @@ func (c *Config) SetField(presetName, arg string) error {
 		c.presets = make(map[string]preset)
 	}
 	c.presets[presetName] = p
+	return nil
+}
+
+func setColor(c *presetColors, field, val string) error {
+	switch field {
+	case "status_2xx":
+		c.Status2xx = val
+	case "status_4xx":
+		c.Status4xx = val
+	case "status_5xx":
+		c.Status5xx = val
+	case "headers":
+		c.Headers = val
+	case "body":
+		c.Body = val
+	case "elapsed":
+		c.Elapsed = val
+	default:
+		return fmt.Errorf("unknown color field %q (valid: status_2xx, status_4xx, status_5xx, headers, body, elapsed)", field)
+	}
 	return nil
 }
 

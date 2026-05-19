@@ -54,6 +54,8 @@ EXAMPLES
 `
 
 func main() {
+	loadDotEnv()
+
 	args := os.Args[1:]
 
 	if len(args) == 0 || args[0] == "--help" || args[0] == "-h" {

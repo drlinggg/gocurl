@@ -1,4 +1,4 @@
-# gocurl v0.0.3
+# gocurl v0.0.4
 
 A curl replacement focused on REST APIs with named presets and a minimal syntax.
 
@@ -11,6 +11,10 @@ A curl replacement focused on REST APIs with named presets and a minimal syntax.
 ```zsh
 make install
 source ~/.zshrc
+
+# or
+
+go install github.com/drlinggg/gocurl@latest
 ```
 
 `make install` runs tests, copies the binary to `$GOPATH/bin`, and adds `$GOPATH/bin` to `~/.zshrc` if it isn't there already.
@@ -28,6 +32,7 @@ source ~/.zshrc
 | `make fmt`                   | Run `go fmt ./...`                           |
 | `make clean`                 | Remove the compiled `./gocurl` binary        |
 | `make install`               | Build, install to `$GOPATH/bin`, patch PATH  |
+| `make uninstall`             | Remove binary from `$GOPATH/bin`, undo PATH  |
 
 ```zsh
 make run ARGS="POST httpbin.org/post name=alex"
@@ -131,14 +136,17 @@ Presets live in `~/.config/gocurl/presets.toml` and are written with the `set` c
 gocurl set <preset> <field> [field ...]
 ```
 
-| Field syntax        | Effect                             |
-|---------------------|------------------------------------|
-| `base=https://...`  | Base URL — enables short path form |
-| `@Key=Value`        | Default request header             |
-| `?key=value`        | Default query parameter            |
-| `timeout=30`        | Request timeout in seconds         |
-| `scheme=http`       | Default scheme (`http` or `https`) |
-| `http=2`            | Default HTTP version (1, 2, 3)     |
+| Field syntax              | Effect                             |
+|---------------------------|------------------------------------|
+| `base=https://...`        | Base URL — enables short path form |
+| `@Key=Value`              | Default request header             |
+| `?key=value`              | Default query parameter            |
+| `timeout=30`              | Request timeout in seconds         |
+| `scheme=http`             | Default scheme (`http` or `https`) |
+| `http=2`                  | Default HTTP version (1, 2, 3)     |
+| `color.<field>=RRGGBB`    | Output color (hex, no `#`)         |
+
+Color fields: `status_2xx`, `status_4xx`, `status_5xx`, `headers`, `body`, `elapsed`.
 
 ### Example
 
@@ -183,6 +191,23 @@ Authorization = "Bearer $TOKEN"   # env vars expanded at request time
 
 ---
 
+## .env
+
+If a `.env` file exists in the working directory it is loaded automatically before any request. Variables already set in the shell are not overridden.
+
+```dotenv
+GITHUB_TOKEN=ghp_...
+API_KEY=secret
+```
+
+Use them in preset headers:
+
+```zsh
+gocurl set github @Authorization="Bearer $GITHUB_TOKEN"
+```
+
+---
+
 ## History
 
 Every request is appended to `~/.config/gocurl/history.jsonl`:
@@ -221,4 +246,9 @@ gocurl --pretty dev /json
 
 # Set default timeout
 gocurl set default timeout=15
+
+# Customize output colors (hex, no #)
+gocurl set default color.body=eeeeee
+gocurl set default color.status_2xx=00c853
+gocurl set default color.elapsed=555555
 ```

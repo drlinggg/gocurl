@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.0.4] — 2026-05-20
+
+### Added
+
+- `.env` file support: if `.env` exists in the working directory it is loaded at startup. Shell environment variables always take precedence over `.env` values.
+- `gocurl set <preset> color.<field>=RRGGBB` — set output colors from the CLI without editing the TOML file directly. Valid fields: `status_2xx`, `status_4xx`, `status_5xx`, `headers`, `body`, `elapsed`.
+
+### Fixes
+
+- Preset TOML fields with zero values (`base = ""`, `timeout = 0`, empty colors) are no longer written on save — `omitempty` added to `preset` and `presetColors` struct tags.
+
+---
+
 ## [0.0.3] — 2026-05-20
 
 ### Fixes
