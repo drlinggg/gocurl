@@ -17,6 +17,25 @@ source ~/.zshrc
 
 ---
 
+## Development
+
+| Command                      | Description                                  |
+|------------------------------|----------------------------------------------|
+| `make build`                 | Run tests, then compile `./gocurl`           |
+| `make test`                  | Run all tests                                |
+| `make run ARGS="<args>"`     | Run without installing (`go run .`)          |
+| `make vet`                   | Run `go vet ./...`                           |
+| `make fmt`                   | Run `go fmt ./...`                           |
+| `make clean`                 | Remove the compiled `./gocurl` binary        |
+| `make install`               | Build, install to `$GOPATH/bin`, patch PATH  |
+
+```zsh
+make run ARGS="POST httpbin.org/post name=alex"
+make run ARGS="--pretty GET httpbin.org/json"
+```
+
+---
+
 ## Syntax
 
 ```
